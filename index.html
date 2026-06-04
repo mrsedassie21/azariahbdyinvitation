@@ -490,7 +490,7 @@
     <div class="splash-title">You're invited to</div>
     <div class="splash-name">Azariah's<br>Birthday! 🎂</div>
     <button class="splash-tap-btn">🐔 Tap to Enter! 🎉</button>
-    <div class="splash-hint">🎵 Music will play inside!</div>
+    <div class="splash-hint">🎵 Tap to start the music & enter!</div>
   </div>
 
 
@@ -664,20 +664,11 @@
 
   </div><!-- /container -->
 
-  <!-- HIDDEN YOUTUBE PLAYER -->
-  <div style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;">
-    <iframe id="ytPlayer"
-      src="https://www.youtube.com/embed/pnG0pisDdKo?autoplay=0&loop=1&playlist=pnG0pisDdKo&enablejsapi=1"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
-  </div>
-
   <!-- MUSIC PLAYER UI -->
   <div class="music-player" id="musicPlayer">
     <div class="music-note" id="musicNote">🎵</div>
     <div class="music-info">
-      <div class="music-title">La Granja de Zenón 🐔</div>
+      <div class="music-title">🎵 Farm Party Music 🐔</div>
       <div class="music-sub" id="musicStatus">♪ Now Playing...</div>
     </div>
     <button class="music-btn" id="musicToggle" onclick="toggleMusic()">⏸</button>
@@ -693,20 +684,41 @@
 <script>
 
   // SPLASH + MUSIC
+  const audio = new Audio('./song.mp3');
+  audio.loop = true;
+  audio.volume = 0.6;
+  let musicPlaying = false;
+
   function enterParty() {
     const splash = document.getElementById('splash');
     splash.classList.add('hide');
     setTimeout(() => { splash.style.display = 'none'; }, 900);
 
-    // Start YouTube music
-    const iframe = document.getElementById('ytPlayer');
-    if (iframe) {
-      const src = iframe.getAttribute('src');
-      if (!src.includes('autoplay=1')) {
-        iframe.setAttribute('src', src.replace('autoplay=0', 'autoplay=1'));
-      }
+    // Start audio after user gesture - guaranteed to work on mobile
+    audio.play().then(() => {
+      musicPlaying = true;
+      document.getElementById('musicStatus').textContent = '♪ Now Playing...';
+      document.getElementById('musicToggle').textContent = '⏸';
+      document.getElementById('musicNote').style.animationPlayState = 'running';
+    }).catch(e => {
+      document.getElementById('musicStatus').textContent = '▶ Tap ▶ to play';
+    });
+  }
+
+  function toggleMusic() {
+    if (musicPlaying) {
+      audio.pause();
+      musicPlaying = false;
+      document.getElementById('musicToggle').textContent = '▶';
+      document.getElementById('musicStatus').textContent = '⏸ Paused';
+      document.getElementById('musicNote').style.animationPlayState = 'paused';
+    } else {
+      audio.play();
+      musicPlaying = true;
+      document.getElementById('musicToggle').textContent = '⏸';
+      document.getElementById('musicStatus').textContent = '♪ Now Playing...';
+      document.getElementById('musicNote').style.animationPlayState = 'running';
     }
-    document.getElementById('musicStatus').textContent = '♪ Now Playing...';
   }
 
 
@@ -764,36 +776,7 @@
   }
 
   // Music toggle
-  let musicPlaying = true;
 
-  function toggleMusic() {
-    const iframe = document.getElementById('ytPlayer');
-    const btn = document.getElementById('musicToggle');
-    const status = document.getElementById('musicStatus');
-    const note = document.getElementById('musicNote');
-
-    if (musicPlaying) {
-      iframe.src = iframe.src.replace('autoplay=1', 'autoplay=0');
-      btn.textContent = '▶';
-      status.textContent = '⏸ Paused';
-      note.style.animationPlayState = 'paused';
-    } else {
-      iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
-      btn.textContent = '⏸';
-      status.textContent = '♪ Now Playing...';
-      note.style.animationPlayState = 'running';
-    }
-    musicPlaying = !musicPlaying;
-  }
-
-  // Try to autoplay on first user interaction (mobile requirement)
-  document.addEventListener('touchstart', function startMusic() {
-    const iframe = document.getElementById('ytPlayer');
-    if (iframe && !iframe.src.includes('autoplay=1')) {
-      iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
-    }
-    document.removeEventListener('touchstart', startMusic);
-  }, { once: true });
 
   // Add sparkle click effect
   document.addEventListener('click', function(e) {
