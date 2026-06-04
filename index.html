@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azariah's Farm Birthday Party! 🐔</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --green: #4caf50;
+    --dark-green: #2e7d32;
+    --red: #e53935;
+    --yellow: #fdd835;
+    --sky: #42b0e8;
+    --orange: #fb8c00;
+    --brown: #795548;
+    --cream: #fffde7;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--sky);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* SKY + GRASS BG */
+  .page-bg {
+    background: linear-gradient(to bottom, #87CEEB 0%, #b8e4f7 55%, #6dbf67 55%, #4caf50 100%);
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Clouds */
+  .clouds {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 160px;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .cloud {
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.9;
+    animation: floatCloud linear infinite;
+  }
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+  }
+  .cloud-1 { width: 120px; height: 40px; top: 20px; animation-duration: 30s; animation-delay: 0s; }
+  .cloud-1::before { width: 60px; height: 60px; top: -30px; left: 15px; }
+  .cloud-1::after { width: 45px; height: 45px; top: -20px; left: 50px; }
+  .cloud-2 { width: 90px; height: 30px; top: 55px; animation-duration: 40s; animation-delay: -15s; }
+  .cloud-2::before { width: 45px; height: 45px; top: -22px; left: 10px; }
+  .cloud-2::after { width: 35px; height: 35px; top: -15px; left: 38px; }
+  .cloud-3 { width: 70px; height: 25px; top: 35px; animation-duration: 35s; animation-delay: -8s; }
+  .cloud-3::before { width: 35px; height: 35px; top: -18px; left: 8px; }
+  .cloud-3::after { width: 28px; height: 28px; top: -12px; left: 30px; }
+  @keyframes floatCloud {
+    from { transform: translateX(-200px); }
+    to { transform: translateX(calc(100vw + 200px)); }
+  }
+
+  /* SUN */
+  .sun {
+    position: fixed;
+    top: 15px;
+    right: 25px;
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle, #fff176, #fdd835);
+    border-radius: 50%;
+    box-shadow: 0 0 30px #fdd83599;
+    z-index: 1;
+    animation: sunPulse 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+  }
+  @keyframes sunPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 30px #fdd83599; }
+    50% { transform: scale(1.08); box-shadow: 0 0 50px #fdd835cc; }
+  }
+
+  /* MAIN CONTAINER */
+  .container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* HEADER BANNER */
+  .header-banner {
+    background: var(--red);
+    border-radius: 24px;
+    padding: 24px 20px 20px;
+    text-align: center;
+    box-shadow: 0 8px 0 #b71c1c, 0 10px 30px rgba(0,0,0,0.3);
+    position: relative;
+    margin-top: 80px;
+    margin-bottom: 20px;
+    border: 4px solid #ffeb3b;
+    animation: bounceIn 0.8s cubic-bezier(.36,.07,.19,.97);
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    60% { transform: scale(1.08); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .flag-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .flag {
+    width: 22px;
+    height: 14px;
+    border-radius: 2px;
+  }
+
+  .header-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: #fff;
+    line-height: 1.1;
+    text-shadow: 3px 3px 0 #b71c1c;
+    letter-spacing: 1px;
+  }
+  .header-subtitle {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    color: #fff176;
+    margin-top: 4px;
+  }
+  .header-emojis {
+    font-size: 2.2rem;
+    margin: 8px 0 4px;
+    display: block;
+  }
+  .header-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.4rem;
+    color: #fdd835;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+    animation: wiggle 2s ease-in-out infinite;
+    display: block;
+    margin: 4px 0;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+
+  /* CARDS */
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.15);
+    border: 3px solid #fdd835;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: repeating-linear-gradient(90deg, #e53935 0, #e53935 20px, #fdd835 20px, #fdd835 40px, #4caf50 40px, #4caf50 60px);
+  }
+
+  .card-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .card-title .icon {
+    font-size: 1.6rem;
+  }
+
+  /* INFO ROWS */
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 2px dashed #e8f5e9;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+  .info-label {
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #9e9e9e;
+  }
+  .info-value {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #2e2e2e;
+    line-height: 1.3;
+  }
+  .info-value.editable {
+    color: #1b5e20;
+    cursor: pointer;
+    border-bottom: 2px dotted #4caf50;
+    display: inline-block;
+    min-width: 30px;
+    min-height: 1.3em;
+  }
+  .info-value.editable:focus { outline: none; background: #f1f8e9; border-radius: 4px; }
+
+  /* MAP */
+  .map-container {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 3px solid #4caf50;
+    margin-top: 10px;
+  }
+  .map-container iframe { display: block; }
+
+  /* RSVP */
+  .rsvp-section {
+    text-align: center;
+  }
+  .rsvp-section p {
+    color: #555;
+    margin-bottom: 14px;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .phone-input-wrap {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .phone-input-wrap input {
+    flex: 1;
+    padding: 12px 14px;
+    border: 3px solid #4caf50;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    outline: none;
+  }
+  .btn {
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 22px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--dark-green);
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--dark-green); }
+  .btn.red { background: var(--red); box-shadow: 0 4px 0 #b71c1c; }
+  .btn.red:active { box-shadow: 0 1px 0 #b71c1c; }
+  .btn.full { width: 100%; justify-content: center; }
+  .btn.yellow { background: #fdd835; color: #333; box-shadow: 0 4px 0 #c6a500; }
+  .btn.yellow:active { box-shadow: 0 1px 0 #c6a500; }
+
+  /* QR CODE */
+  .qr-section { text-align: center; }
+  #qrcode {
+    display: inline-block;
+    background: white;
+    padding: 14px;
+    border-radius: 16px;
+    border: 3px solid #fdd835;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 10px 0;
+  }
+  .qr-caption {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  /* ANIMALS PARADE */
+  .animals-row {
+    text-align: center;
+    font-size: 2.2rem;
+    margin: 8px 0;
+    animation: parade 8s linear infinite;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    letter-spacing: 4px;
+  }
+  @keyframes parade {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* EDIT MODE TOGGLE */
+  .edit-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b71c1c, 0 8px 20px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .edit-toggle:hover { transform: scale(1.05); }
+
+  .edit-hint {
+    background: #fff9c4;
+    border: 2px solid #fdd835;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 14px;
+    display: none;
+  }
+  .edit-hint.show { display: block; }
+
+  /* DECORATION */
+  .barn-decoration {
+    text-align: center;
+    font-size: 3.5rem;
+    margin: 10px 0 5px;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+  }
+
+  .party-banner {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    font-size: 1.5rem;
+    margin: 6px 0;
+    animation: bannerBounce 1s ease-in-out infinite alternate;
+  }
+  @keyframes bannerBounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+  }
+
+  .footer-grass {
+    text-align: center;
+    font-size: 1.8rem;
+    letter-spacing: 6px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  /* Responsive */
+  @media (max-width: 420px) {
+    .header-title { font-size: 1.6rem; }
+    .header-name { font-size: 2rem; }
+    .container { padding: 14px 12px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-bg">
+
+  <!-- Floating clouds -->
+  <div class="clouds">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
+  <!-- Sun -->
+  <div class="sun">☀️</div>
+
+  <div class="container">
+
+    <!-- HEADER -->
+    <div class="header-banner">
+      <div class="flag-row">
+        <!-- US Flag colors for July 4th -->
+        <div style="background:#BF0A30;width:30px;height:18px;border-radius:3px;border:1px solid #fff"></div>
+        <div style="background:#fff;width:30px;height:18px;border-radius:3px;border:1px solid #ccc"></div>
+        <div style="background:#002868;width:30px;height:18px;border-radius:3px;border:1px solid #fff"></div>
+        <div>🎆</div>
+        <div style="background:#002868;width:30px;height:18px;border-radius:3px;border:1px solid #fff"></div>
+        <div style="background:#fff;width:30px;height:18px;border-radius:3px;border:1px solid #ccc"></div>
+        <div style="background:#BF0A30;width:30px;height:18px;border-radius:3px;border:1px solid #fff"></div>
+      </div>
+      <span class="header-emojis">🐔🐮🐑🎂🐓🐄🐣</span>
+      <div class="header-title">You're Invited to</div>
+      <span class="header-name" id="partyName">Azariah's</span>
+      <div class="header-title">Birthday Party!</div>
+      <div class="header-subtitle">🎉 La Granja de Zenón Theme 🎉</div>
+      <div style="margin-top:10px;font-size:0.85rem;color:#ffcdd2;font-weight:700;">🇺🇸 Happy 4th of July Weekend! 🇺🇸</div>
+    </div>
+
+    <!-- ANIMAL PARADE -->
+    <div class="card" style="padding: 12px 20px; overflow: hidden;">
+      <span class="animals-row">🐔 🐮 🦆 🐑 🐴 🐓 🐣 🐇 🐖 🐔 🐮 🦆 🐑 🐴 🐓 🐣 🐇 🐖</span>
+    </div>
+
+    <!-- PARTY DETAILS -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🎪</span> Party Details</div>
+
+      <div class="edit-hint" id="editHint">✏️ Tap on green text to edit!</div>
+
+      <div class="info-row">
+        <div class="info-icon">👦</div>
+        <div>
+          <div class="info-label">Birthday Boy</div>
+          <div class="info-value editable" id="editName" contenteditable="false">Azariah Mathew Sedassie</div>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-icon">🎂</div>
+        <div>
+          <div class="info-label">Turning</div>
+          <div class="info-value editable" id="editAge" contenteditable="false">1 Year Old!</div>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-icon">📅</div>
+        <div>
+          <div class="info-label">Date</div>
+          <div class="info-value editable" id="editDate" contenteditable="false">Friday, July 4th, 2025</div>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-icon">⏰</div>
+        <div>
+          <div class="info-label">Time</div>
+          <div class="info-value editable" id="editTime" contenteditable="false">2:00 PM – 6:00 PM</div>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-icon">📍</div>
+        <div>
+          <div class="info-label">Location</div>
+          <div class="info-value editable" id="editAddress" contenteditable="false">San Pablo, Belize</div>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-icon">👗</div>
+        <div>
+          <div class="info-label">Dress Code</div>
+          <div class="info-value editable" id="editDress" contenteditable="false">Farm Fun — Casual & Colorful! 🌈</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MAP -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🗺️</span> Find the Farm!</div>
+      <div class="map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d261.9277522020641!2d-88.56687279454064!3d18.209089359890523!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5bf1f24fdff593%3A0x262d1981d0a3dd72!2sSan%20Pablo!5e0!3m2!1sen!2sbz!4v1780585726725!5m2!1sen!2sbz"
+          width="100%"
+          height="250"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+
+    <!-- WHAT TO EXPECT -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🎠</span> What to Expect!</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
+        <div style="background:#e8f5e9;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:2rem;">🎂</div>
+          <div style="font-weight:800;font-size:0.85rem;color:#2e7d32;">Birthday Cake</div>
+        </div>
+        <div style="background:#fff3e0;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:2rem;">🍔</div>
+          <div style="font-weight:800;font-size:0.85rem;color:#e65100;">Food & Drinks</div>
+        </div>
+        <div style="background:#e3f2fd;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:2rem;">🎮</div>
+          <div style="font-weight:800;font-size:0.85rem;color:#1565c0;">Games & Fun</div>
+        </div>
+        <div style="background:#fce4ec;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:2rem;">🎆</div>
+          <div style="font-weight:800;font-size:0.85rem;color:#c62828;">4th of July!</div>
+        </div>
+        <div style="background:#f3e5f5;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:2rem;">🎁</div>
+          <div style="font-weight:800;font-size:0.85rem;color:#6a1b9a;">Gifts</div>
+        </div>
+        <div style="background:#fffde7;border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:2rem;">📸</div>
+          <div style="font-weight:800;font-size:0.85rem;color:#f57f17;">Photos!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📝</span> Special Notes</div>
+      <div class="info-value editable" id="editNotes" contenteditable="false" style="color:#555;font-weight:600;font-size:0.95rem;line-height:1.6;">
+        Join us to celebrate Azariah's special day! 🎉 Come hungry, wear something fun, and get ready for lots of love, laughter, and farm animal adventures! 🐮🐔🐑
+      </div>
+      <div style="margin-top:12px;background:#fff9c4;border-radius:10px;padding:10px;font-weight:700;font-size:0.85rem;text-align:center;color:#555;border:2px dashed #fdd835;">
+        📲 RSVP by: <span class="editable" id="editRsvp" contenteditable="false">June 28th, 2025</span>
+      </div>
+    </div>
+
+    <!-- QR CODE -->
+    <div class="card qr-section">
+      <div class="card-title" style="justify-content:center;"><span class="icon">📱</span> Share This Invite!</div>
+      <p style="color:#777;font-size:0.85rem;font-weight:600;margin-bottom:10px;">Send this QR code to guests — they can scan it to see the full invitation!</p>
+      <div id="qrcode"></div>
+      <div class="qr-caption">Scan to open invitation</div>
+      <button class="btn yellow full" style="margin-top:12px;" onclick="downloadQR()">⬇️ Download QR Code</button>
+    </div>
+
+    <!-- BARN FOOTER -->
+    <div class="barn-decoration">🏚️🌻🌾🌻🏚️</div>
+    <div class="party-banner">🎈🎉🐔🎂🐮🎉🎈</div>
+    <div style="text-align:center;font-family:'Fredoka One',cursive;color:white;font-size:1.1rem;text-shadow:2px 2px 0 rgba(0,0,0,0.3);margin-top:10px;">
+      See you at the farm! 🚜
+    </div>
+    <div class="footer-grass">🌿🌿🌿🌿🌿🌿🌿🌿</div>
+
+  </div><!-- /container -->
+
+  <!-- EDIT TOGGLE BUTTON -->
+  <button class="edit-toggle" onclick="toggleEdit()" id="editBtn">
+    ✏️ Edit Info
+  </button>
+
+</div><!-- /page-bg -->
+
+<script>
+  // Generate QR code
+  const pageURL = window.location.href;
+  new QRCode(document.getElementById("qrcode"), {
+    text: pageURL,
+    width: 180,
+    height: 180,
+    colorDark: "#2e7d32",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  // Download QR code
+  function downloadQR() {
+    const canvas = document.querySelector('#qrcode canvas');
+    if (canvas) {
+      const link = document.createElement('a');
+      link.download = 'azariah-birthday-qr.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    } else {
+      const img = document.querySelector('#qrcode img');
+      if (img) {
+        const link = document.createElement('a');
+        link.download = 'azariah-birthday-qr.png';
+        link.href = img.src;
+        link.click();
+      }
+    }
+  }
+
+  let editMode = false;
+
+  function toggleEdit() {
+    editMode = !editMode;
+    const editables = document.querySelectorAll('.editable');
+    const hint = document.getElementById('editHint');
+    const btn = document.getElementById('editBtn');
+
+    editables.forEach(el => {
+      el.contentEditable = editMode ? 'true' : 'false';
+    });
+
+    if (editMode) {
+      btn.innerHTML = '✅ Done Editing';
+      btn.style.background = '#4caf50';
+      hint.classList.add('show');
+    } else {
+      btn.innerHTML = '✏️ Edit Info';
+      btn.style.background = '#e53935';
+      hint.classList.remove('show');
+    }
+  }
+
+  // Add sparkle click effect
+  document.addEventListener('click', function(e) {
+    const sparks = ['🌟','⭐','✨','🎊','🎉','💫'];
+    const spark = document.createElement('div');
+    spark.textContent = sparks[Math.floor(Math.random() * sparks.length)];
+    spark.style.cssText = `
+      position: fixed;
+      left: ${e.clientX - 15}px;
+      top: ${e.clientY - 15}px;
+      font-size: 1.5rem;
+      pointer-events: none;
+      z-index: 9999;
+      animation: sparkFly 0.8s ease-out forwards;
+    `;
+    document.body.appendChild(spark);
+    setTimeout(() => spark.remove(), 800);
+  });
+
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes sparkFly {
+      0% { opacity: 1; transform: scale(0.5) translateY(0); }
+      100% { opacity: 0; transform: scale(1.5) translateY(-50px); }
+    }
+  `;
+  document.head.appendChild(style);
+</script>
+</body>
+</html>
